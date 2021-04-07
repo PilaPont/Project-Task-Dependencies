@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="project_task_form" model="ir.ui.view">
+        <field name="name">project.task.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='description_page']" position="after">
+                <page string="Dependencies">
+                    <field name="required_task_ids"
+                           context="{'default_project_id':project_id}">
+                        <tree editable="top">
+                            <field name="project_id" invisible="1"/>
+                            <field name="dependent_task_id" invisible="1"/>
+                            <field name="required_task_id"
+                                   domain="[('project_id', '=', project_id),('id', '!=', dependent_task_id)]"/>
+                            <field name="relation_type"/>
+                        </tree>
+                    </field>
+                    <field
+                            name="dependent_task_ids"
+                            context="{'default_project_id':project_id}">
+                        <tree editable="top">
+                            <field name="project_id" invisible="1"/>
+                            <field name="required_task_id" invisible="1"/>
+                            <field name="dependent_task_id"
+                                   domain="[('project_id', '=', project_id),('id', '!=', required_task_id)]"/>
+                            <field name="relation_type"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
